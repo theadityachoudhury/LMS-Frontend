@@ -1,5 +1,10 @@
 // src/types.ts
 
+enum Role {
+  ADMIN,
+  USER,
+}
+
 export interface User {
   name: {
     fname: string;
@@ -8,7 +13,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  role: string;
+  role: Role;
   verified: boolean;
   deleted: boolean;
   disabled: boolean;
@@ -17,15 +22,27 @@ export interface User {
 }
 
 export interface BackendTokens {
-  token: string;
+  accessToken: string;
   expiresIn: number;
   refreshToken: string;
   user: User;
+}
+
+export interface refreshToken {
+  refreshToken: string;
+  accessToken: string;
+  expiresIn: number;
+}
+
+export interface loginError {
+  recognition: string | null;
+  password: string | null;
+  account: string | null;
 }
 
 export interface UserState {
   user: User | null;
   authenticated: boolean;
   ready: boolean;
-  error: string | null;
+  error: loginError;
 }
