@@ -1,21 +1,20 @@
 import { navLinks } from "../../Utils/NavLinks";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const HeaderLinks = () => {
+  const { pathname } = useLocation();
+
   return (
-    <div className="space-x-4 m-2">
-      {navLinks.map((link, index) => {
-        return (
-          //highlight when selected
-          <Link
-            key={index}
-            to={link.link}
-            className="text-black hover:text-indigo-500 py-2"
-          >
-            {link.title}
-          </Link>
-        );
-      })}
+    <div className="flex space-x-4">
+      {navLinks.map((link, index) => (
+        <Link
+          key={index}
+          to={link.link}
+          className={`${pathname == link.link ? "text-indigo-700" : "text-black"} hover:text-indigo-500 py-2`}
+        >
+          {link.title}
+        </Link>
+      ))}
     </div>
   );
 };

@@ -78,7 +78,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({
     } else if (ready && !authenticated) {
       toastSuccess("Logged out successfully");
     }
-  }, [authenticated, ready, toastSuccess]);
+  }, [authenticated, toastSuccess]);
 
   useEffect(() => {
     if (authenticated) {
@@ -87,19 +87,23 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
       if (user === null) {
         dispatch(refreshAccessToken()).then(() =>
-          console.log("Access token refreshed"),
+          dispatch(fetchUser()).then(() => console.log()),
         );
-        dispatch(fetchUser()).then(() => console.log("User fetched"));
       }
 
-      const refreshAccessTokenInterval = setInterval(() => {
-        dispatch(refreshAccessToken());
-      }, 10 * 1000);
+      const refreshAccessTokenInterval = setInterval(
+        () => {
+          dispatch(refreshAccessToken()).then(() =>
+            dispatch(fetchUser()).then(() => console.log()),
+          );
+        },
+        3 * 60 * 60 * 1000,
+      );
 
       return () => clearInterval(refreshAccessTokenInterval);
     }
     dispatch(setReady(true));
-  }, [authenticated, dispatch]);
+  }, [authenticated]);
 
   function isLoggedIn(): boolean {
     return Cookies.get("authenticated") === "true";
