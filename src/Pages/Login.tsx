@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,14 +8,18 @@ import { loginSchema } from "../Schema/Auth";
 import { useUserContext } from "../Hooks/useUserContext";
 import sleep from "../Utils/sleep";
 import Loader from "../Components/Loader";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import useToast from "../Hooks/useToast";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { toastError } = useToast();
 
-  const { user, authenticated, login, ready, error } = useUserContext();
+  const { user, authenticated, login, ready, error, signInWithGoogle } =
+    useUserContext();
 
   const [params] = useSearchParams();
   const callback = params.get("callback");
@@ -82,6 +86,17 @@ const Login = () => {
     }
   };
 
+  const responseMessage = (response: CredentialResponse) => {
+    let { credential } = response || "";
+    credential = credential || "";
+    console.log("credential", credential);
+    signInWithGoogle(credential);
+    console.log("here");
+  };
+  const googleError = () => {
+    toastError("Failed to login with Google");
+  };
+
   if (ready && authenticated && user) {
     if (callback) {
       return <Navigate to={callback} />;
@@ -105,9 +120,15 @@ const Login = () => {
           <div className="space-y-5 mx-5 sm:max-w-lg lg:max-w-lg sm:mx-auto">
             {/* <!-- Social Sign in --> */}
             <div className="space-y-2">
-              <button className="text-xl border border-white p-4 px-6 bg-black hover:bg-white hover:text-black ease-in-out duration-200">
-                Sign in with Google
-              </button>
+              <GoogleLogin
+                ux_mode="popup"
+                theme="outline"
+                useOneTap
+                logo_alignment="center"
+                shape="rectangular"
+                onSuccess={responseMessage}
+                onError={googleError}
+              />
             </div>
 
             {/* <!-- OR --> */}
@@ -133,7 +154,6 @@ const Login = () => {
                     placeholder="Email or Username"
                     className="p-3 px-3 w-full border bg-black text-white placeholder:text-slate-500 text-md"
                     {...register("email")}
-                    autoFocus
                     onChange={handleEmailChange}
                     onBlur={handleEmailBlur}
                   />

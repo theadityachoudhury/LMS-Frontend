@@ -9,6 +9,7 @@ import {
   refreshAccessToken,
   setAuthenticated,
   setReady,
+  signInWithGoogle,
   verify,
 } from "../Store/Slices/userSlice";
 import useToast from "../Hooks/useToast";
@@ -26,6 +27,7 @@ export interface UserContextType {
   logout: () => void;
   verify: () => void;
   isLoggedIn: () => boolean;
+  signInWithGoogle: (credential: string) => void;
 }
 
 // Create the context
@@ -120,6 +122,8 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({
         logout: () => dispatch(logoutUser()),
         verify: () => dispatch(verify()),
         isLoggedIn,
+        signInWithGoogle: (credential) =>
+          dispatch(signInWithGoogle(credential)),
       }}
     >
       {children}

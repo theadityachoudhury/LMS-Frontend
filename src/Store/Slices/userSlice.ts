@@ -43,6 +43,32 @@ export const loginUser = createAsyncThunk<
   }
 });
 
+export const signInWithGoogle = createAsyncThunk<
+  BackendTokens,
+  string,
+  { rejectValue: loginError }
+>("user/signInWithGoogle", async (credential, { rejectWithValue }) => {
+  try {
+    console.log("credential", credential);
+    const { data } = await instance.post("/api/auth/oauth/google", {
+      credential,
+    });
+    if (data.status === 200) {
+      return data.data;
+    } else {
+      if (data.status === 403 || data.status === 400 || data.status === 500) {
+        return rejectWithValue({ ...initialError, account: data.message });
+      } else if (data.status === 401) {
+        return rejectWithValue({ ...initialError, password: data.message });
+      } else if (data.status === 404) {
+        return rejectWithValue({ ...initialError, recognition: data.message });
+      }
+    }
+  } catch (error) {
+    return rejectWithValue({ ...initialError, account: "Failed to login" });
+  }
+});
+
 export const fetchUser = createAsyncThunk<
   User,
   void,
@@ -224,6 +250,25 @@ const userSlice = createSlice({
           payload: action.payload || {
             ...initialError,
             account: "Failed to logout",
+          },
+          type: "user/setError",
+        });
+      })
+      .addCase(
+        signInWithGoogle.fulfilled,
+        (state, action: PayloadAction<BackendTokens>) => {
+          // Handle login success using login reducer
+          console.log("loginUser.fulfilled");
+          userSlice.caseReducers.login(state, action);
+          state.error = initialError;
+        },
+      )
+      .addCase(signInWithGoogle.rejected, (state, action) => {
+        // Handle login failure using setError reducer
+        userSlice.caseReducers.setError(state, {
+          payload: action.payload || {
+            ...initialError,
+            account: "Failed to login",
           },
           type: "user/setError",
         });

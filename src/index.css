@@ -4,9 +4,19 @@
 
 /** set background to bg-gray-800 using tailwind css for the whole app use @apply*/
 body {
-  @apply bg-black text-white;
+	@apply bg-black text-white;
 }
 
-.loginContainer{
-    @apply flex justify-center mt-28 text-center;
+.loginContainer {
+	@apply flex justify-center mt-28 text-center;
+}
+
+.google-login-wrapper {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.google-login-wrapper > div {
+	width: 100% !important;
 }
