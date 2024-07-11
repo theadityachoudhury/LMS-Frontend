@@ -10,7 +10,7 @@ const HeaderLinks = () => {
         <Link
           key={index}
           to={link.link}
-          className={`${pathname == link.link ? "text-indigo-700" : "text-black"} hover:text-indigo-500 py-2`}
+          className={`${pathname == link.link ? "text-indigo-700" : "text-white"} hover:text-indigo-500 py-2`}
         >
           {link.title}
         </Link>

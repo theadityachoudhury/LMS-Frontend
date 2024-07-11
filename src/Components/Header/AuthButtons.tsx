@@ -11,19 +11,19 @@ const AuthButtons = () => {
         isLoggedIn() ? (
           <button
             onClick={async () => await logout()}
-            className="border border-black font-semibold hover:bg-gray-300 py-2 px-4"
+            className="border border-white font-semibold hover:bg-gray-800 py-2 px-4"
           >
             Logout
           </button>
         ) : (
           <div className="flex space-x-3">
             <Link to="/login">
-              <button className="border border-black font-semibold hover:bg-gray-300 py-2 px-4">
+              <button className="border border-white font-semibold hover:bg-white hover:text-black duration-150 ease-linear py-2 px-4">
                 Login
               </button>
             </Link>
             <Link className="hidden sm:block" to="/register">
-              <button className="py-2 px-4 bg-gray-900 font-semibold text-gray-100 hover:bg-gray-800">
+              <button className="py-2 px-4 bg-indigo-200 font-semibold text-black hover:bg-indigo-500 ease-in duration-150 hover:text-white">
                 Register
               </button>
             </Link>

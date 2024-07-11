@@ -6,7 +6,7 @@ import MobileMenu from "./MobileMenu";
 
 const Header = () => {
   return (
-    <header className="text-xl p-4 sm:px-8 sm:py-4 bg-white shadow-sm">
+    <header className="text-xl p-4 sm:px-8 sm:py-4 bg-black text-white shadow-sm">
       <div className="hidden sm:flex justify-between items-center">
         <Link to="/">
           <h1 className="text-3xl font-bold hover:text-indigo-500">

@@ -30,13 +30,13 @@ const MobileMenu = () => {
 
   return (
     <div>
-      <button onClick={toggleMobileMenu} className="text-black p-2 rounded">
+      <button onClick={toggleMobileMenu} className="text-white p-2 rounded">
         {isMobileMenuOpen ? <X size={35} /> : <Logs size={35} />}
       </button>
 
       <div
         ref={menuRef}
-        className={`fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg z-40 transform ${
+        className={`fixed top-0 left-0 w-3/4 h-full bg-gray-950 shadow-lg z-40 transform ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
@@ -45,11 +45,11 @@ const MobileMenu = () => {
             {config.APP_NAME}
           </span>
           <button className="rounded-md" onClick={toggleMobileMenu}>
-            <X size={24} className="text-slate-700 hover:text-black" />
+            <X size={24} className="text-gray-300 hover:text-white" />
           </button>
         </div>
         <div className="p-4">
-          <ul className="space-y-4 text-gray-700">
+          <ul className="space-y-4 text-gray-200">
             <li>
               <a href="/login" className="hover:text-indigo-500">
                 Log in
@@ -65,7 +65,7 @@ const MobileMenu = () => {
                 Plans & Pricing
               </a>
             </li>
-            <li className="mt-4 font-bold text-gray-900">Most popular</li>
+            <li className="mt-4 font-bold text-gray-100">Most popular</li>
             <li>
               <a
                 href="/topic/web-development"
