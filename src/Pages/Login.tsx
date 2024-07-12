@@ -182,6 +182,7 @@ const Login = () => {
                     {...register("email")}
                     onChange={handleEmailChange}
                     onBlur={handleEmailBlur}
+                    autoComplete="off"
                   />
                 </div>
                 <div className="text-left">
@@ -239,6 +240,14 @@ const Login = () => {
                 >
                   {loading ? <Loader size={28} /> : "Login"}
                 </button>
+              </div>
+
+              {/* <!-- Register --> */}
+              <div className="text-center text-lg">
+                Don't have an account?{" "}
+                <Link to="/register" className="text-blue-500">
+                  Register
+                </Link>
               </div>
             </form>
           </div>

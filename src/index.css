@@ -11,6 +11,10 @@ body {
 	@apply flex justify-center mt-28 sm:mt-28 text-center;
 }
 
+.registerContainer {
+	@apply flex justify-center my-5 text-center;
+}
+
 .google-login-wrapper {
 	display: flex;
 	justify-content: center;
