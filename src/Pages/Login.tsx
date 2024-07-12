@@ -16,6 +16,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const { toastError } = useToast();
 
   const { user, authenticated, login, ready, error, signInWithGoogle } =
@@ -88,15 +89,16 @@ const Login = () => {
 
   const responseMessage = (response: TokenResponse) => {
     signInWithGoogle(response.access_token);
-    console.log("here");
   };
   const googleError = () => {
     toastError("Failed to login with Google");
+    setGoogleLoading(false);
   };
 
   const oauthGoogleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => responseMessage(codeResponse),
     onError: () => googleError(),
+    onNonOAuthError: () => googleError(),
   });
 
   if (ready && authenticated && user) {
@@ -134,17 +136,24 @@ const Login = () => {
 
               <div
                 className="bg-white text-black p-3 cursor-pointer hover:bg-indigo-600 hover:text-gray-100 duration-150 ease-linear"
-                onClick={() => oauthGoogleLogin()}
+                onClick={() => {
+                  setGoogleLoading(true);
+                  oauthGoogleLogin();
+                }}
               >
-                <p className="flex text-xl space-x-2">
-                  <img
-                    src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000"
-                    height={30}
-                    width={30}
-                    alt=""
-                  />
-                  <p>Continue with Google</p>
-                </p>
+                {googleLoading ? (
+                  <Loader size={28} />
+                ) : (
+                  <p className="flex text-xl space-x-2">
+                    <img
+                      src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000"
+                      height={30}
+                      width={30}
+                      alt=""
+                    />
+                    <p>Continue with Google</p>
+                  </p>
+                )}
               </div>
             </div>
 
