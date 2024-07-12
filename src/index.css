@@ -8,7 +8,7 @@ body {
 }
 
 .loginContainer {
-	@apply flex justify-center mt-28 text-center;
+	@apply flex justify-center mt-28 sm:mt-28 text-center;
 }
 
 .google-login-wrapper {

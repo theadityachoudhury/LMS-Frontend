@@ -8,7 +8,7 @@ import { loginSchema } from "../Schema/Auth";
 import { useUserContext } from "../Hooks/useUserContext";
 import sleep from "../Utils/sleep";
 import Loader from "../Components/Loader";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import useToast from "../Hooks/useToast";
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -86,16 +86,18 @@ const Login = () => {
     }
   };
 
-  const responseMessage = (response: CredentialResponse) => {
-    let { credential } = response || "";
-    credential = credential || "";
-    console.log("credential", credential);
-    signInWithGoogle(credential);
+  const responseMessage = (response: TokenResponse) => {
+    signInWithGoogle(response.access_token);
     console.log("here");
   };
   const googleError = () => {
     toastError("Failed to login with Google");
   };
+
+  const oauthGoogleLogin = useGoogleLogin({
+    onSuccess: (codeResponse) => responseMessage(codeResponse),
+    onError: () => googleError(),
+  });
 
   if (ready && authenticated && user) {
     if (callback) {
@@ -120,7 +122,7 @@ const Login = () => {
           <div className="space-y-5 mx-5 sm:max-w-lg lg:max-w-lg sm:mx-auto">
             {/* <!-- Social Sign in --> */}
             <div className="space-y-2">
-              <GoogleLogin
+              {/* <GoogleLogin
                 ux_mode="popup"
                 theme="outline"
                 useOneTap
@@ -128,7 +130,22 @@ const Login = () => {
                 shape="rectangular"
                 onSuccess={responseMessage}
                 onError={googleError}
-              />
+              /> */}
+
+              <div
+                className="bg-white text-black p-3 cursor-pointer hover:bg-indigo-600 hover:text-gray-100 duration-150 ease-linear"
+                onClick={() => oauthGoogleLogin()}
+              >
+                <p className="flex text-xl space-x-2">
+                  <img
+                    src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000"
+                    height={30}
+                    width={30}
+                    alt=""
+                  />
+                  <p>Continue with Google</p>
+                </p>
+              </div>
             </div>
 
             {/* <!-- OR --> */}
