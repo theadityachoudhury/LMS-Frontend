@@ -1,5 +1,7 @@
 // src/types.ts
 
+import { CSSProperties } from "react";
+
 enum Role {
   ADMIN,
   USER,
@@ -45,4 +47,24 @@ export interface UserState {
   authenticated: boolean;
   ready: boolean;
   error: loginError;
+}
+
+export interface SingleOTPInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  focus?: boolean;
+}
+
+export interface OTPInputProps {
+  length: number;
+  onChangeOTP: (otp: string) => void;
+
+  autoFocus?: boolean;
+  isNumberInput?: boolean;
+  disabled?: boolean;
+
+  style?: CSSProperties;
+  className?: string;
+
+  inputStyle?: CSSProperties;
+  inputClassName?: string;
 }

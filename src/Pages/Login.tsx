@@ -199,10 +199,7 @@ const Login = () => {
                     <label htmlFor="password" className="text-lg">
                       Password
                     </label>
-                    <Link
-                      to="/forgot-password"
-                      className="text-blue-500 text-lg"
-                    >
+                    <Link to="/reset" className="text-blue-500 text-lg">
                       Forgot password?
                     </Link>
                   </div>
